@@ -1,0 +1,158 @@
+[
+  {
+    "zip": "95818",
+    "renter_pct": 54,
+    "elderly_pct": 22,
+    "no_vehicle_pct": 11,
+    "LEP_pct": 19,
+    "income": 48000,
+    "equity_score": 86.2,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-121.5, 38.5], [-121.4, 38.5], [-121.4, 38.6], [-121.5, 38.6], [-121.5, 38.5]]]
+    }
+  },
+  {
+    "zip": "94110",
+    "renter_pct": 65,
+    "elderly_pct": 15,
+    "no_vehicle_pct": 25,
+    "LEP_pct": 28,
+    "income": 52000,
+    "equity_score": 78.5,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-122.42, 37.75], [-122.4, 37.75], [-122.4, 37.76], [-122.42, 37.76], [-122.42, 37.75]]]
+    }
+  },
+  {
+    "zip": "90011",
+    "renter_pct": 72,
+    "elderly_pct": 12,
+    "no_vehicle_pct": 32,
+    "LEP_pct": 45,
+    "income": 36000,
+    "equity_score": 92.1,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-118.25, 34.0], [-118.24, 34.0], [-118.24, 34.01], [-118.25, 34.01], [-118.25, 34.0]]]
+    }
+  },
+  {
+    "zip": "93701",
+    "renter_pct": 68,
+    "elderly_pct": 18,
+    "no_vehicle_pct": 28,
+    "LEP_pct": 32,
+    "income": 32000,
+    "equity_score": 89.7,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-119.8, 36.75], [-119.78, 36.75], [-119.78, 36.77], [-119.8, 36.77], [-119.8, 36.75]]]
+    }
+  },
+  {
+    "zip": "95814",
+    "renter_pct": 82,
+    "elderly_pct": 14,
+    "no_vehicle_pct": 18,
+    "LEP_pct": 22,
+    "income": 42000,
+    "equity_score": 76.3,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-121.51, 38.58], [-121.49, 38.58], [-121.49, 38.59], [-121.51, 38.59], [-121.51, 38.58]]]
+    }
+  },
+  {
+    "zip": "92507",
+    "renter_pct": 58,
+    "elderly_pct": 16,
+    "no_vehicle_pct": 15,
+    "LEP_pct": 26,
+    "income": 45000,
+    "equity_score": 72.8,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-117.35, 33.96], [-117.33, 33.96], [-117.33, 33.98], [-117.35, 33.98], [-117.35, 33.96]]]
+    }
+  },
+  {
+    "zip": "91331",
+    "renter_pct": 48,
+    "elderly_pct": 14,
+    "no_vehicle_pct": 12,
+    "LEP_pct": 38,
+    "income": 49000,
+    "equity_score": 68.5,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-118.42, 34.25], [-118.4, 34.25], [-118.4, 34.27], [-118.42, 34.27], [-118.42, 34.25]]]
+    }
+  },
+  {
+    "zip": "95660",
+    "renter_pct": 52,
+    "elderly_pct": 19,
+    "no_vehicle_pct": 14,
+    "LEP_pct": 21,
+    "income": 46000,
+    "equity_score": 71.2,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-121.42, 38.66], [-121.4, 38.66], [-121.4, 38.68], [-121.42, 38.68], [-121.42, 38.66]]]
+    }
+  },
+  {
+    "zip": "94601",
+    "renter_pct": 70,
+    "elderly_pct": 16,
+    "no_vehicle_pct": 30,
+    "LEP_pct": 42,
+    "income": 38000,
+    "equity_score": 88.3,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-122.22, 37.78], [-122.2, 37.78], [-122.2, 37.8], [-122.22, 37.8], [-122.22, 37.78]]]
+    }
+  },
+  {
+    "zip": "92020",
+    "renter_pct": 62,
+    "elderly_pct": 18,
+    "no_vehicle_pct": 16,
+    "LEP_pct": 24,
+    "income": 44000,
+    "equity_score": 74.6,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-116.98, 32.78], [-116.96, 32.78], [-116.96, 32.8], [-116.98, 32.8], [-116.98, 32.78]]]
+    }
+  },
+  {
+    "zip": "95823",
+    "renter_pct": 59,
+    "elderly_pct": 15,
+    "no_vehicle_pct": 18,
+    "LEP_pct": 29,
+    "income": 41000,
+    "equity_score": 77.9,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-121.45, 38.48], [-121.43, 38.48], [-121.43, 38.5], [-121.45, 38.5], [-121.45, 38.48]]]
+    }
+  },
+  {
+    "zip": "93706",
+    "renter_pct": 56,
+    "elderly_pct": 13,
+    "no_vehicle_pct": 22,
+    "LEP_pct": 36,
+    "income": 35000,
+    "equity_score": 83.7,
+    "geometry": {
+      "type": "Polygon",
+      "coordinates": [[[-119.84, 36.7], [-119.82, 36.7], [-119.82, 36.72], [-119.84, 36.72], [-119.84, 36.7]]]
+    }
+  }
+]
