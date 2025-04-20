@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import L from "leaflet"
-import "leaflet/dist/leaflet.css"
+import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, ChevronLeft, Layers, Info } from "lucide-react"
 import type { VoicePin } from "@/types/data-types"
@@ -28,101 +27,15 @@ export default function VoicesMap({
   selectedPin,
   setSelectedPin,
 }: VoicesMapProps) {
-  const mapRef = useRef<L.Map | null>(null)
-  const mapContainerRef = useRef<HTMLDivElement | null>(null)
-  const markersLayerRef = useRef<L.LayerGroup | null>(null)
-  // Remove this line since we're now using the prop from parent
-  // const [selectedPin, setSelectedPin] = useState<VoicePin | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [showLayersPanel, setShowLayersPanel] = useState(false)
   const [showLegendPanel, setShowLegendPanel] = useState(false)
-
-  // Initialize map
-  useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) return
-
-    // California bounds
-    const californiaBounds = L.latLngBounds(
-      L.latLng(32.5, -124.4), // Southwest corner
-      L.latLng(42.0, -114.1), // Northeast corner
-    )
-
-    // Create map with light theme
-    const map = L.map(mapContainerRef.current, {
-      center: [37.2, -119.5], // Center of California
-      zoom: 6,
-      maxBounds: californiaBounds.pad(0.1), // Restrict panning to California
-      minZoom: 5,
-      maxZoom: 12,
-    })
-
-    // Add light-themed tile layer
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map)
-
-    mapRef.current = map
-    markersLayerRef.current = L.layerGroup().addTo(map)
-
-    // Fit map to California bounds
-    map.fitBounds(californiaBounds)
-
-    return () => {
-      map.remove()
-      mapRef.current = null
-    }
-  }, [])
-
-  // Update markers when voice pins or filters change
-  useEffect(() => {
-    if (!mapRef.current || !markersLayerRef.current) return
-
-    // Clear existing markers
-    markersLayerRef.current.clearLayers()
-
-    // Filter pins by selected categories
-    const filteredPins =
-      selectedCategories.length > 0 ? voicePins.filter((pin) => selectedCategories.includes(pin.category)) : voicePins
-
-    // Add markers for each pin
-    filteredPins.forEach((pin) => {
-      // Create custom icon based on category
-      const iconColor = getColorForCategory(pin.category)
-      const icon = L.divIcon({
-        className: "custom-div-icon",
-        html: `<div style="background-color: ${iconColor};" class="marker-pin">
-                <span class="flex items-center justify-center h-full text-white">🔊</span>
-               </div>`,
-        iconSize: [30, 42],
-        iconAnchor: [15, 42],
-      })
-
-      // Create marker
-      const marker = L.marker([pin.lat, pin.lng], { icon }).addTo(markersLayerRef.current!)
-
-      // Add click handler
-      marker.on("click", () => {
-        // Set the selected pin in the parent component
-        setSelectedPin(pin)
-
-        // Ensure the sidebar is open
-        setSidebarOpen(true)
-
-        // Remove any open popups
-        mapRef.current?.closePopup()
-      })
-
-      // Add popup with basic info
-      const popupContent = `
-        <div class="p-2">
-          <div class="font-bold">${getCategoryIcon(pin.category)} ${pin.category}</div>
-          <div class="text-sm text-gray-400">${pin.timestamp}</div>
-        </div>
-      `
-      marker.bindPopup(popupContent)
-    })
-  }, [voicePins, selectedCategories, setSelectedPin, setSidebarOpen])
+  
+  // Import DynamicMap component with SSR disabled
+  const DynamicMapWithNoSSR = dynamic(
+    () => import('./dynamic-map'),
+    { ssr: false }
+  )
 
   // Get color for category
   const getColorForCategory = (category: string): string => {
@@ -163,8 +76,39 @@ export default function VoicesMap({
   }
 
   return (
-    <div className="relative h-full">
-      <div ref={mapContainerRef} className="h-full w-full z-0" />
+    <div className="relative w-full h-full">
+      {/* Map Container - Using dynamic import with no SSR */}
+      <DynamicMapWithNoSSR 
+        voicePins={voicePins}
+        selectedCategories={selectedCategories}
+        setSelectedPin={setSelectedPin}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      {/* Sidebar Toggle Button */}
+      <div
+        className={`absolute top-4 ${sidebarPosition === "left" ? "right-4" : "left-4"} z-10`}
+        style={{ transition: "all 0.3s ease" }}
+      >
+        <Button
+          variant="default"
+          size="sm"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="bg-gray-800/90 text-gray-200 border border-gray-700 shadow-md hover:bg-gray-700"
+        >
+          {sidebarOpen ? (
+            <>
+              <span>Hide Panel</span>
+              {sidebarPosition === "left" ? <ChevronLeft className="h-4 w-4 ml-2" /> : <ChevronRight className="h-4 w-4 ml-2" />}
+            </>
+          ) : (
+            <>
+              <span>Show Panel</span>
+              {sidebarPosition === "left" ? <ChevronRight className="h-4 w-4 ml-2" /> : <ChevronLeft className="h-4 w-4 ml-2" />}
+            </>
+          )}
+        </Button>
+      </div>
 
       {/* Collapsible Layer Controls */}
       <div className="absolute top-4 right-4 z-10">

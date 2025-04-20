@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -30,10 +30,66 @@ export default function Voices({
 
   const categories = ["Urgent Help", "Emotional Testimony", "Pet Missing", "Needs Shelter"]
 
-  // Add this function to handle audio playback
-  const togglePlayback = () => {
-    setIsPlaying(!isPlaying)
-    // In a real implementation, you would play/pause the audio here
+  // Function to handle audio playback using our backend TTS API
+  const togglePlayback = async (transcript: string) => {
+    try {
+      if (isPlaying) {
+        // If already playing, just stop
+        setIsPlaying(false);
+        return;
+      }
+      
+      setIsPlaying(true);
+      
+      // Call our backend TTS API
+      const response = await fetch('http://localhost:4000/api/tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: transcript })
+      });
+      
+      if (!response.ok) {
+        throw new Error(`TTS API error: ${response.status}`);
+      }
+      
+      // Convert response to audio blob
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      
+      // Create and play audio
+      const audio = new Audio(audioUrl);
+      
+      // Set up event listeners
+      audio.onended = () => {
+        setIsPlaying(false);
+        // Clean up the URL object to prevent memory leaks
+        URL.revokeObjectURL(audioUrl);
+      };
+      
+      audio.onerror = () => {
+        console.error('Audio playback error');
+        setIsPlaying(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+      
+      // Play the audio
+      audio.play().catch(error => {
+        console.error('Failed to play audio:', error);
+        setIsPlaying(false);
+        URL.revokeObjectURL(audioUrl);
+      });
+      
+      // Safety timeout in case onended doesn't fire
+      setTimeout(() => {
+        if (isPlaying) {
+          setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+        }
+      }, 30000); // 30 second safety timeout
+    } catch (error) {
+      console.error('Error playing voice:', error);
+      setIsPlaying(false);
+    }
   }
 
   // Get color for category (copied from voices-map.tsx)
@@ -328,7 +384,7 @@ export default function Voices({
                       variant="outline"
                       size="sm"
                       className="bg-gray-700 hover:bg-gray-600 text-white border-gray-600 h-8 w-8 p-0 rounded-full"
-                      onClick={togglePlayback}
+                      onClick={() => selectedPin && togglePlayback(selectedPin.transcript)}
                     >
                       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                     </Button>
